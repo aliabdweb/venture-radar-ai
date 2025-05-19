@@ -92,7 +92,7 @@ const PricingSection = () => {
             />
           ))}
         </div>
-        
+            
         <div className="mt-16 text-center">
           <p className="text-venture-gray mb-2">Need a custom solution?</p>
           <a href="#" className="text-venture-purple font-semibold hover:underline">Contact us for enterprise pricing</a>
