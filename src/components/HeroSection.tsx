@@ -1,6 +1,6 @@
-
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   return (
@@ -25,9 +25,11 @@ const HeroSection = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start animate-fade-in" style={{ animationDelay: "0.3s" }}>
-              <Button className="bg-venture-purple hover:bg-venture-purple-dark text-white text-lg px-8 py-6 h-auto shadow-lg hover:shadow-xl hover:shadow-venture-purple/20 transform hover:-translate-y-1 transition-all">
-                Get Started
-              </Button>
+              <Link to="/login">
+                <Button className="bg-venture-purple hover:bg-venture-purple-dark text-white text-lg px-8 py-6 h-auto shadow-lg hover:shadow-xl hover:shadow-venture-purple/20 transform hover:-translate-y-1 transition-all">
+                  Get Started
+                </Button>
+              </Link>
               <Button variant="outline" className="border-venture-purple text-venture-purple hover:bg-venture-purple hover:text-white group flex items-center gap-2 text-lg px-8 py-6 h-auto transform hover:-translate-y-1 transition-all duration-300">
                 Watch Demo
                 <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />

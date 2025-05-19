@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -25,12 +24,18 @@ const Login = () => {
       // Simulate API call for login
       await new Promise((resolve) => setTimeout(resolve, 1000));
       
+      // Check for special admin credentials
+      let userRole = "user";
+      if (email === "admin@demo.com") {
+        userRole = "admin";
+      }
+      
       // Mock successful login
       const user = {
-        name: "John Doe",
+        name: userRole === "admin" ? "Admin User" : "Regular User",
         email: email,
         tier: "trial",
-        role: "user", // Default role is user
+        role: userRole, // Set role based on email
         trialEndsAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
       };
       
@@ -105,6 +110,11 @@ const Login = () => {
           </Link>
           <h2 className="text-2xl font-bold text-white">Welcome Back</h2>
           <p className="text-gray-400 mt-2">Sign in to access your account</p>
+          <p className="text-xs text-gray-400 mt-1">
+            For admin access use: admin@demo.com / password
+            <br />
+            For user access use: demo@demo.com / password
+          </p>
         </div>
 
         <Card className="border-venture-purple-dark shadow-lg">

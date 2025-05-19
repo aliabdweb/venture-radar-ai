@@ -1,5 +1,5 @@
 
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import Sidebar from "@/components/Sidebar";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -26,7 +26,24 @@ interface AuthLayoutProps {
 
 const AuthLayout = ({ children }: AuthLayoutProps) => {
   const location = useLocation();
-  const user = getUserData();
+  const [user, setUser] = useState(getUserData());
+  
+  // Update user when localStorage changes
+  useEffect(() => {
+    const checkUserData = () => {
+      setUser(getUserData());
+    };
+    
+    // Check on mount
+    checkUserData();
+    
+    // Listen for storage events (in case user data changes in another tab)
+    window.addEventListener('storage', checkUserData);
+    
+    return () => {
+      window.removeEventListener('storage', checkUserData);
+    };
+  }, []);
 
   if (!isAuthenticated()) {
     // Redirect to login if not authenticated

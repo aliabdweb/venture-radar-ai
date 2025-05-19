@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AuthLayout from "@/components/AuthLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,6 +18,7 @@ import {
 
 const Settings = () => {
   const [loading, setLoading] = useState(false);
+  const [userRole, setUserRole] = useState("user");
   const { toast } = useToast();
 
   // User profile state
@@ -47,6 +47,20 @@ const Settings = () => {
     retryAttempts: "3",
     maxSubscriptions: "1000"
   });
+
+  // Get user role from localStorage
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("user") || "{}");
+    if (userData && userData.role) {
+      setUserRole(userData.role);
+      // Update profile with user data
+      setProfile(prev => ({
+        ...prev,
+        name: userData.name || prev.name,
+        email: userData.email || prev.email,
+      }));
+    }
+  }, []);
 
   const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -130,7 +144,9 @@ const Settings = () => {
           <TabsList className="mb-4">
             <TabsTrigger value="profile">Profile</TabsTrigger>
             <TabsTrigger value="preferences">Newsletter Preferences</TabsTrigger>
-            <TabsTrigger value="api">Crawler Settings</TabsTrigger>
+            {userRole === "admin" && (
+              <TabsTrigger value="api">Crawler Settings</TabsTrigger>
+            )}
           </TabsList>
           
           {/* Profile Tab */}
@@ -354,107 +370,109 @@ const Settings = () => {
             </Card>
           </TabsContent>
           
-          {/* API Settings Tab */}
-          <TabsContent value="api">
-            <Card className="shadow-sm">
-              <CardHeader>
-                <CardTitle>Crawler Settings</CardTitle>
-                <CardDescription>
-                  Configure your newsletter crawler settings
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="crawlerEmail">Crawler Email Address</Label>
-                    <Input
-                      id="crawlerEmail"
-                      name="crawlerEmail"
-                      type="email"
-                      value={apiSettings.crawlerEmail}
-                      onChange={handleApiSettingsChange}
-                    />
-                    <p className="text-xs text-muted-foreground">
-                      This email will be used to subscribe to VC newsletters
-                    </p>
+          {/* API Settings Tab - Only for admin */}
+          {userRole === "admin" && (
+            <TabsContent value="api">
+              <Card className="shadow-sm">
+                <CardHeader>
+                  <CardTitle>Crawler Settings</CardTitle>
+                  <CardDescription>
+                    Configure your newsletter crawler settings
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="crawlerEmail">Crawler Email Address</Label>
+                      <Input
+                        id="crawlerEmail"
+                        name="crawlerEmail"
+                        type="email"
+                        value={apiSettings.crawlerEmail}
+                        onChange={handleApiSettingsChange}
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        This email will be used to subscribe to VC newsletters
+                      </p>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="automationFrequency">Automation Frequency</Label>
+                      <Select 
+                        value={apiSettings.automationFrequency}
+                        onValueChange={(value) => setApiSettings(prev => ({ ...prev, automationFrequency: value }))}
+                      >
+                        <SelectTrigger id="automationFrequency">
+                          <SelectValue placeholder="Select frequency" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="hourly">Hourly</SelectItem>
+                          <SelectItem value="daily">Daily</SelectItem>
+                          <SelectItem value="weekly">Weekly</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <p className="text-xs text-muted-foreground">
+                        How often the crawler will check for new newsletters
+                      </p>
+                    </div>
                   </div>
                   
-                  <div className="space-y-2">
-                    <Label htmlFor="automationFrequency">Automation Frequency</Label>
-                    <Select 
-                      value={apiSettings.automationFrequency}
-                      onValueChange={(value) => setApiSettings(prev => ({ ...prev, automationFrequency: value }))}
-                    >
-                      <SelectTrigger id="automationFrequency">
-                        <SelectValue placeholder="Select frequency" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="hourly">Hourly</SelectItem>
-                        <SelectItem value="daily">Daily</SelectItem>
-                        <SelectItem value="weekly">Weekly</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <p className="text-xs text-muted-foreground">
-                      How often the crawler will check for new newsletters
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="retryAttempts">Retry Attempts</Label>
-                    <Input
-                      id="retryAttempts"
-                      name="retryAttempts"
-                      type="number"
-                      min="1"
-                      max="10"
-                      value={apiSettings.retryAttempts}
-                      onChange={handleApiSettingsChange}
-                    />
-                    <p className="text-xs text-muted-foreground">
-                      Number of times to retry failed subscription attempts
-                    </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="retryAttempts">Retry Attempts</Label>
+                      <Input
+                        id="retryAttempts"
+                        name="retryAttempts"
+                        type="number"
+                        min="1"
+                        max="10"
+                        value={apiSettings.retryAttempts}
+                        onChange={handleApiSettingsChange}
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        Number of times to retry failed subscription attempts
+                      </p>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="maxSubscriptions">Max Subscriptions</Label>
+                      <Input
+                        id="maxSubscriptions"
+                        name="maxSubscriptions"
+                        type="number"
+                        min="100"
+                        value={apiSettings.maxSubscriptions}
+                        onChange={handleApiSettingsChange}
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        Maximum number of newsletters to subscribe to
+                      </p>
+                    </div>
                   </div>
                   
-                  <div className="space-y-2">
-                    <Label htmlFor="maxSubscriptions">Max Subscriptions</Label>
-                    <Input
-                      id="maxSubscriptions"
-                      name="maxSubscriptions"
-                      type="number"
-                      min="100"
-                      value={apiSettings.maxSubscriptions}
-                      onChange={handleApiSettingsChange}
-                    />
-                    <p className="text-xs text-muted-foreground">
-                      Maximum number of newsletters to subscribe to
-                    </p>
+                  <div className="pt-4 border-t">
+                    <h3 className="font-medium mb-4">Advanced Settings</h3>
+                    
+                    <div className="space-y-4">
+                      <Button variant="outline">View API Credentials</Button>
+                      <Button variant="outline" className="text-red-600 hover:bg-red-50 hover:text-red-700">
+                        Reset Crawler State
+                      </Button>
+                    </div>
                   </div>
-                </div>
-                
-                <div className="pt-4 border-t">
-                  <h3 className="font-medium mb-4">Advanced Settings</h3>
-                  
-                  <div className="space-y-4">
-                    <Button variant="outline">View API Credentials</Button>
-                    <Button variant="outline" className="text-red-600 hover:bg-red-50 hover:text-red-700">
-                      Reset Crawler State
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-              <CardFooter>
-                <Button 
-                  onClick={handleSaveApiSettings} 
-                  className="bg-venture-purple hover:bg-venture-purple-dark"
-                  disabled={loading}
-                >
-                  {loading ? "Saving..." : "Save API Settings"}
-                </Button>
-              </CardFooter>
-            </Card>
-          </TabsContent>
+                </CardContent>
+                <CardFooter>
+                  <Button 
+                    onClick={handleSaveApiSettings} 
+                    className="bg-venture-purple hover:bg-venture-purple-dark"
+                    disabled={loading}
+                  >
+                    {loading ? "Saving..." : "Save API Settings"}
+                  </Button>
+                </CardFooter>
+              </Card>
+            </TabsContent>
+          )}
         </Tabs>
       </div>
     </AuthLayout>

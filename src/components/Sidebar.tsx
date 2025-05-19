@@ -17,7 +17,7 @@ interface SidebarProps {
 
 const Sidebar = ({ userRole = "user" }: SidebarProps) => {
   const location = useLocation();
-  const user = JSON.parse(localStorage.getItem("user") || '{"name":"User","email":"user@example.com"}');
+  const user = JSON.parse(localStorage.getItem("user") || '{"name":"User","email":"user@example.com","role":"user"}');
 
   // Base menu items for all users
   const baseMenuItems = [
@@ -58,7 +58,7 @@ const Sidebar = ({ userRole = "user" }: SidebarProps) => {
   ];
 
   // Determine which menu items to show based on user role
-  const menuItems = userRole === "admin" 
+  const menuItems = user.role === "admin" 
     ? [...baseMenuItems, ...adminOnlyItems] 
     : baseMenuItems;
 

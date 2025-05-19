@@ -161,25 +161,8 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
-        {/* Quick actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Card className="shadow-sm">
-            <CardHeader>
-              <CardTitle>Add New VC</CardTitle>
-              <CardDescription>Track a new venture capital firm</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm mb-4">
-                Add a new VC firm to your tracking list to receive their newsletters and updates.
-              </p>
-              <Link to="/vcs/new">
-                <Button className="bg-venture-purple hover:bg-venture-purple-dark">
-                  Add VC <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
-
+        {/* Quick actions - Removed "Add New VC" box */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Card className="shadow-sm">
             <CardHeader>
               <CardTitle>Browse VCs</CardTitle>
