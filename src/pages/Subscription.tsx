@@ -13,13 +13,13 @@ const plans = [
     price: "Free",
     description: "Try VentureRadar for 14 days",
     features: [
-      "Daily newsletter digest",
-      "Access to 5 sectors of interest",
+      "Weekly newsletter digest",
+      "Access to 2 sectors of interest",
       "Basic personalization",
       "7-day content archive"
     ],
     isRecommended: false,
-    isCurrent: false,
+    isCurrent: true,
     buttonText: "Current Plan"
   },
   {

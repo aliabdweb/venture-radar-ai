@@ -16,7 +16,7 @@ const PricingSection = () => {
       description: "Perfect for evaluating our platform",
       features: [
         "Access to daily newsletter",
-        "Limited to 5 sectors of interest",
+        "Limited to 2 sectors of interest",
         "Basic personalization",
         "Standard support"
       ],
