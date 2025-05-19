@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Database, Zap, BarChart3, MailOpen } from "lucide-react";
 
