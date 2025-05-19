@@ -7,6 +7,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
+import { Google } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -29,6 +31,7 @@ const Register = () => {
         name: name,
         email: email,
         tier: "trial",
+        role: "user", // Default role is user
         trialEndsAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
       };
       
@@ -45,6 +48,42 @@ const Register = () => {
       toast({
         title: "Registration Failed",
         description: "Please check your information and try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogleSignUp = async () => {
+    setIsLoading(true);
+    
+    try {
+      // Simulate API call for Google sign up
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      
+      // Mock successful Google sign up
+      const user = {
+        name: "John Doe",
+        email: "john.doe@gmail.com",
+        tier: "trial",
+        role: "user", // Default role is user
+        trialEndsAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
+      };
+      
+      // Store user in localStorage (in a real app, store only the token)
+      localStorage.setItem("user", JSON.stringify(user));
+      
+      toast({
+        title: "Google Sign Up Successful",
+        description: "Your 14-day free trial has started. Welcome to VentureRadar!",
+      });
+      
+      navigate("/dashboard");
+    } catch (error) {
+      toast({
+        title: "Google Sign Up Failed",
+        description: "An error occurred during Google sign up. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -74,71 +113,94 @@ const Register = () => {
             <CardTitle>Sign Up</CardTitle>
             <CardDescription>Enter your details to create an account</CardDescription>
           </CardHeader>
-          <form onSubmit={handleSubmit}>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="name">Full Name</Label>
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="John Doe"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                />
+          <CardContent className="space-y-4">
+            {/* Google sign up button */}
+            <Button
+              variant="outline"
+              className="w-full flex items-center justify-center gap-2"
+              onClick={handleGoogleSignUp}
+              disabled={isLoading}
+            >
+              <Google className="h-4 w-4" />
+              <span>Sign up with Google</span>
+            </Button>
+            
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <Separator className="w-full" />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="name@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
+            </div>
+
+            <form onSubmit={handleSubmit}>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="name">Full Name</Label>
+                  <Input
+                    id="name"
+                    type="text"
+                    placeholder="John Doe"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="name@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="terms" required />
+                  <Label htmlFor="terms" className="text-sm font-normal">
+                    I agree to the{" "}
+                    <Link to="/terms" className="text-venture-purple hover:underline">
+                      Terms of Service
+                    </Link>{" "}
+                    and{" "}
+                    <Link to="/privacy" className="text-venture-purple hover:underline">
+                      Privacy Policy
+                    </Link>
+                  </Label>
+                </div>
+              
+                <Button
+                  type="submit"
+                  className="w-full bg-venture-purple hover:bg-venture-purple-dark"
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Creating Account..." : "Create Account"}
+                </Button>
               </div>
-              <div className="flex items-center space-x-2">
-                <Checkbox id="terms" required />
-                <Label htmlFor="terms" className="text-sm font-normal">
-                  I agree to the{" "}
-                  <Link to="/terms" className="text-venture-purple hover:underline">
-                    Terms of Service
-                  </Link>{" "}
-                  and{" "}
-                  <Link to="/privacy" className="text-venture-purple hover:underline">
-                    Privacy Policy
-                  </Link>
-                </Label>
-              </div>
-            </CardContent>
-            <CardFooter className="flex flex-col space-y-4">
-              <Button
-                type="submit"
-                className="w-full bg-venture-purple hover:bg-venture-purple-dark"
-                disabled={isLoading}
-              >
-                {isLoading ? "Creating Account..." : "Create Account"}
-              </Button>
-              <div className="text-center text-sm">
-                Already have an account?{" "}
-                <Link to="/login" className="text-venture-purple hover:underline">
-                  Sign in
-                </Link>
-              </div>
-            </CardFooter>
-          </form>
+            </form>
+          </CardContent>
+          <CardFooter className="flex flex-col space-y-4 pt-0">
+            <div className="text-center text-sm">
+              Already have an account?{" "}
+              <Link to="/login" className="text-venture-purple hover:underline">
+                Sign in
+              </Link>
+            </div>
+          </CardFooter>
         </Card>
       </div>
     </div>

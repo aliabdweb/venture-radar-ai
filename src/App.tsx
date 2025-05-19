@@ -15,6 +15,7 @@ import VCList from "./pages/VCList";
 import VCDetail from "./pages/VCDetail";
 import VCForm from "./pages/VCForm";
 import Newsletters from "./pages/Newsletters";
+import NewsletterDetail from "./pages/NewsletterDetail";
 import Settings from "./pages/Settings";
 import Subscription from "./pages/Subscription";
 import Team from "./pages/Team";
@@ -44,6 +45,7 @@ const App = () => (
           
           {/* Newsletter Routes */}
           <Route path="/newsletters" element={<Newsletters />} />
+          <Route path="/newsletters/:id" element={<NewsletterDetail />} />
           
           {/* Settings Routes */}
           <Route path="/settings" element={<Settings />} />

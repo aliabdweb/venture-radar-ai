@@ -7,6 +7,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
+import { Google } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -28,6 +30,7 @@ const Login = () => {
         name: "John Doe",
         email: email,
         tier: "trial",
+        role: "user", // Default role is user
         trialEndsAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
       };
       
@@ -44,6 +47,42 @@ const Login = () => {
       toast({
         title: "Login Failed",
         description: "Please check your credentials and try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setIsLoading(true);
+    
+    try {
+      // Simulate API call for Google login
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      
+      // Mock successful Google login
+      const user = {
+        name: "John Doe",
+        email: "john.doe@gmail.com",
+        tier: "trial",
+        role: "user", // Default role is user
+        trialEndsAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
+      };
+      
+      // Store user in localStorage (in a real app, store only the token)
+      localStorage.setItem("user", JSON.stringify(user));
+      
+      toast({
+        title: "Google Login Successful",
+        description: "Welcome back to VentureRadar!",
+      });
+      
+      navigate("/dashboard");
+    } catch (error) {
+      toast({
+        title: "Google Login Failed",
+        description: "An error occurred during Google login. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -73,56 +112,79 @@ const Login = () => {
             <CardTitle>Sign In</CardTitle>
             <CardDescription>Enter your email and password to sign in</CardDescription>
           </CardHeader>
-          <form onSubmit={handleSubmit}>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="name@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
+          <CardContent className="space-y-4">
+            {/* Google login button */}
+            <Button
+              variant="outline"
+              className="w-full flex items-center justify-center gap-2"
+              onClick={handleGoogleLogin}
+              disabled={isLoading}
+            >
+              <Google className="h-4 w-4" />
+              <span>Sign in with Google</span>
+            </Button>
+            
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <Separator className="w-full" />
               </div>
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="password">Password</Label>
-                  <Link to="/forgot-password" className="text-sm text-venture-purple hover:underline">
-                    Forgot password?
-                  </Link>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+              </div>
+            </div>
+            
+            <form onSubmit={handleSubmit}>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="name@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
                 </div>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="password">Password</Label>
+                    <Link to="/forgot-password" className="text-sm text-venture-purple hover:underline">
+                      Forgot password?
+                    </Link>
+                  </div>
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="remember" />
+                  <Label htmlFor="remember" className="text-sm font-normal">Remember me</Label>
+                </div>
+              
+                <Button
+                  type="submit"
+                  className="w-full bg-venture-purple hover:bg-venture-purple-dark"
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Signing in..." : "Sign In"}
+                </Button>
               </div>
-              <div className="flex items-center space-x-2">
-                <Checkbox id="remember" />
-                <Label htmlFor="remember" className="text-sm font-normal">Remember me</Label>
-              </div>
-            </CardContent>
-            <CardFooter className="flex flex-col space-y-4">
-              <Button
-                type="submit"
-                className="w-full bg-venture-purple hover:bg-venture-purple-dark"
-                disabled={isLoading}
-              >
-                {isLoading ? "Signing in..." : "Sign In"}
-              </Button>
-              <div className="text-center text-sm">
-                Don't have an account?{" "}
-                <Link to="/register" className="text-venture-purple hover:underline">
-                  Sign up
-                </Link>
-              </div>
-            </CardFooter>
-          </form>
+            </form>
+          </CardContent>
+          <CardFooter className="flex flex-col space-y-4 pt-0">
+            <div className="text-center text-sm">
+              Don't have an account?{" "}
+              <Link to="/register" className="text-venture-purple hover:underline">
+                Sign up
+              </Link>
+            </div>
+          </CardFooter>
         </Card>
       </div>
     </div>

@@ -11,11 +11,16 @@ import {
   CreditCard 
 } from "lucide-react";
 
-const Sidebar = () => {
+interface SidebarProps {
+  userRole?: string;
+}
+
+const Sidebar = ({ userRole = "user" }: SidebarProps) => {
   const location = useLocation();
   const user = JSON.parse(localStorage.getItem("user") || '{"name":"User","email":"user@example.com"}');
 
-  const menuItems = [
+  // Base menu items for all users
+  const baseMenuItems = [
     { 
       name: "Dashboard", 
       path: "/dashboard", 
@@ -32,11 +37,6 @@ const Sidebar = () => {
       icon: Send 
     },
     { 
-      name: "Team", 
-      path: "/team", 
-      icon: Users 
-    },
-    { 
       name: "Subscription", 
       path: "/subscription", 
       icon: CreditCard 
@@ -47,6 +47,20 @@ const Sidebar = () => {
       icon: Settings 
     },
   ];
+
+  // Admin only menu items
+  const adminOnlyItems = [
+    { 
+      name: "Team", 
+      path: "/team", 
+      icon: Users 
+    }
+  ];
+
+  // Determine which menu items to show based on user role
+  const menuItems = userRole === "admin" 
+    ? [...baseMenuItems, ...adminOnlyItems] 
+    : baseMenuItems;
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -67,6 +81,16 @@ const Sidebar = () => {
         <div className="text-sm text-gray-300">Logged in as</div>
         <div className="font-medium">{user.name}</div>
         <div className="text-sm text-gray-400">{user.email}</div>
+        {user.role === "admin" && (
+          <div className="mt-1 px-2 py-0.5 rounded-full text-xs bg-venture-purple inline-block">
+            Admin
+          </div>
+        )}
+        {user.tier === "trial" && (
+          <div className="mt-1 text-xs text-amber-400">
+            Trial ends in {getRemainingDays(user.trialEndsAt)} days
+          </div>
+        )}
       </div>
 
       {/* Navigation */}
@@ -106,6 +130,15 @@ const Sidebar = () => {
       </div>
     </div>
   );
+};
+
+// Helper function to calculate days remaining
+const getRemainingDays = (endDate: string): number => {
+  const now = new Date();
+  const end = new Date(endDate);
+  const diffTime = end.getTime() - now.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays > 0 ? diffDays : 0;
 };
 
 export default Sidebar;

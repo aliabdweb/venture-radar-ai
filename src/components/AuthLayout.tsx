@@ -11,12 +11,22 @@ const isAuthenticated = () => {
   return localStorage.getItem("user") !== null;
 };
 
+// Get user data from localStorage
+const getUserData = () => {
+  const userData = localStorage.getItem("user");
+  if (userData) {
+    return JSON.parse(userData);
+  }
+  return { role: "user" }; // Default role
+};
+
 interface AuthLayoutProps {
   children: ReactNode;
 }
 
 const AuthLayout = ({ children }: AuthLayoutProps) => {
   const location = useLocation();
+  const user = getUserData();
 
   if (!isAuthenticated()) {
     // Redirect to login if not authenticated
@@ -27,7 +37,7 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
     <div className="flex min-h-screen bg-gray-50">
       {/* Desktop Sidebar */}
       <div className="hidden md:flex">
-        <Sidebar />
+        <Sidebar userRole={user.role} />
       </div>
 
       {/* Mobile Sidebar */}
@@ -38,7 +48,7 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="p-0 w-72">
-          <Sidebar />
+          <Sidebar userRole={user.role} />
         </SheetContent>
       </Sheet>
 
