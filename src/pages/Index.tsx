@@ -1,5 +1,4 @@
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -21,7 +20,7 @@ const Index = () => {
       <HeroSection />
       
       {/* Main Features */}
-      <section className="py-16 px-4 md:py-24 bg-gray-50/70 hero-pattern">
+      <section id="features" className="py-16 px-4 md:py-24 bg-gray-50/70 hero-pattern">
         <div className="container max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">Harness the Power of AI for VC Intelligence</h2>
@@ -60,7 +59,7 @@ const Index = () => {
       </section>
       
       {/* How It Works Section */}
-      <section className="py-16 px-4 md:py-24">
+      <section id="how-it-works" className="py-16 px-4 md:py-24">
         <div className="container max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">How VentureRadar Works</h2>
@@ -98,8 +97,23 @@ const Index = () => {
                           </li>
                         </ul>
                       </div>
-                      <div className="w-full md:w-1/2 bg-gray-100 h-64 rounded-lg flex items-center justify-center">
-                        <div className="text-3xl text-venture-gray">Collection Illustration</div>
+                      <div className="w-full md:w-1/2 bg-gradient-to-br from-gray-50 to-venture-purple/5 h-64 rounded-lg flex items-center justify-center shadow-md">
+                        <div className="w-3/4 h-4/5 bg-white rounded-md shadow-lg p-4 flex flex-col">
+                          <div className="flex items-center mb-4">
+                            <div className="w-8 h-8 bg-venture-purple rounded-full flex items-center justify-center">
+                              <Database className="h-4 w-4 text-white" />
+                            </div>
+                            <div className="ml-3 text-venture-dark font-semibold">Data Collection</div>
+                          </div>
+                          <div className="space-y-2 flex-grow">
+                            <div className="h-3 bg-gray-100 rounded-full w-full"></div>
+                            <div className="h-3 bg-gray-100 rounded-full w-5/6"></div>
+                            <div className="h-3 bg-gray-100 rounded-full w-4/6"></div>
+                          </div>
+                          <div className="mt-4 flex justify-end">
+                            <div className="w-20 h-6 bg-venture-purple/20 rounded-full"></div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </CardContent>
@@ -127,8 +141,29 @@ const Index = () => {
                           </li>
                         </ul>
                       </div>
-                      <div className="w-full md:w-1/2 bg-gray-100 h-64 rounded-lg flex items-center justify-center">
-                        <div className="text-3xl text-venture-gray">Processing Illustration</div>
+                      <div className="w-full md:w-1/2 bg-gradient-to-br from-gray-50 to-venture-purple/5 h-64 rounded-lg flex items-center justify-center shadow-md">
+                        <div className="w-3/4 h-4/5 bg-white rounded-md shadow-lg p-4 flex flex-col">
+                          <div className="flex items-center mb-4">
+                            <div className="w-8 h-8 bg-venture-purple rounded-full flex items-center justify-center">
+                              <Zap className="h-4 w-4 text-white" />
+                            </div>
+                            <div className="ml-3 text-venture-dark font-semibold">AI Processing</div>
+                          </div>
+                          <div className="grid grid-cols-3 gap-2 flex-grow">
+                            <div className="col-span-1 space-y-2">
+                              <div className="h-12 bg-venture-purple/10 rounded-md"></div>
+                              <div className="h-12 bg-venture-purple/10 rounded-md"></div>
+                            </div>
+                            <div className="col-span-2 space-y-2">
+                              <div className="h-6 bg-gray-100 rounded-md"></div>
+                              <div className="h-6 bg-gray-100 rounded-md"></div>
+                              <div className="h-12 bg-venture-purple/5 rounded-md"></div>
+                            </div>
+                          </div>
+                          <div className="mt-4 flex justify-end">
+                            <div className="w-20 h-6 bg-venture-purple/20 rounded-full"></div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </CardContent>
@@ -156,8 +191,26 @@ const Index = () => {
                           </li>
                         </ul>
                       </div>
-                      <div className="w-full md:w-1/2 bg-gray-100 h-64 rounded-lg flex items-center justify-center">
-                        <div className="text-3xl text-venture-gray">Delivery Illustration</div>
+                      <div className="w-full md:w-1/2 bg-gradient-to-br from-gray-50 to-venture-purple/5 h-64 rounded-lg flex items-center justify-center shadow-md">
+                        <div className="w-3/4 h-4/5 bg-white rounded-md shadow-lg p-4 flex flex-col">
+                          <div className="flex items-center mb-4">
+                            <div className="w-8 h-8 bg-venture-purple rounded-full flex items-center justify-center">
+                              <MailOpen className="h-4 w-4 text-white" />
+                            </div>
+                            <div className="ml-3 text-venture-dark font-semibold">Digest Delivery</div>
+                          </div>
+                          <div className="space-y-2 flex-grow">
+                            <div className="h-8 bg-venture-purple/5 rounded-md flex items-center px-3">
+                              <div className="w-6 h-6 rounded-full bg-venture-purple/20 mr-2"></div>
+                              <div className="h-2 bg-gray-200 rounded-full w-2/3"></div>
+                            </div>
+                            <div className="h-12 bg-gray-100 rounded-md"></div>
+                            <div className="h-8 bg-venture-purple/5 rounded-md"></div>
+                          </div>
+                          <div className="mt-4 flex justify-end">
+                            <div className="w-20 h-6 bg-venture-purple/20 rounded-full"></div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </CardContent>
@@ -169,7 +222,7 @@ const Index = () => {
       </section>
       
       {/* Benefits Section */}
-      <section className="py-16 px-4 md:py-24 bg-venture-dark text-white">
+      <section id="benefits" className="py-16 px-4 md:py-24 bg-venture-dark text-white">
         <div className="container max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Choose VentureRadar</h2>
@@ -201,10 +254,14 @@ const Index = () => {
       </section>
       
       {/* Testimonials */}
-      <TestimonialSection />
+      <section id="testimonials">
+        <TestimonialSection />
+      </section>
       
       {/* Pricing */}
-      <PricingSection />
+      <section id="pricing">
+        <PricingSection />
+      </section>
       
       {/* CTA Section */}
       <CTASection />
@@ -217,7 +274,7 @@ const Index = () => {
 // Helper Components
 const FeatureCard = ({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) => {
   return (
-    <Card className="card-glow border bg-white overflow-hidden">
+    <Card className="card-glow border bg-white overflow-hidden hover:transform hover:scale-105 transition-all duration-300">
       <CardContent className="p-6 flex flex-col items-center text-center">
         <div className="mb-4 p-3 bg-venture-purple/10 rounded-full">
           {icon}
@@ -231,11 +288,11 @@ const FeatureCard = ({ icon, title, description }: { icon: React.ReactNode, titl
 
 const BenefitCard = ({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) => {
   return (
-    <div className="bg-white/5 p-6 rounded-lg backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all">
-      <div className="mb-4">
+    <div className="bg-white/5 p-6 rounded-lg backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all hover:transform hover:scale-105 hover:shadow-lg hover:shadow-venture-purple/10 group">
+      <div className="mb-4 group-hover:transform group-hover:scale-110 transition-transform duration-300">
         {icon}
       </div>
-      <h3 className="text-xl font-semibold mb-2">{title}</h3>
+      <h3 className="text-xl font-semibold mb-2 text-white group-hover:text-venture-purple-light transition-colors">{title}</h3>
       <p className="text-gray-300">{description}</p>
     </div>
   );

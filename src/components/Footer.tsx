@@ -1,5 +1,6 @@
 
 import { Button } from "@/components/ui/button";
+import { Twitter, Linkedin, Facebook, Instagram, Github } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -41,7 +42,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <div className="h-8 w-8 rounded-full bg-gradient-to-br from-venture-purple to-venture-purple-light flex items-center justify-center">
+              <div className="h-8 w-8 rounded-full bg-gradient-to-br from-venture-purple to-venture-purple-light flex items-center justify-center shadow-sm">
                 <span className="text-white font-bold">V</span>
               </div>
               <span className="text-lg font-bold text-venture-dark">VentureRadar</span>
@@ -50,10 +51,11 @@ const Footer = () => {
               The AI-powered platform for VC intelligence, streamlining newsletter management and content delivery.
             </p>
             <div className="flex items-center gap-4">
-              <SocialIcon name="twitter" />
-              <SocialIcon name="linkedin" />
-              <SocialIcon name="facebook" />
-              <SocialIcon name="instagram" />
+              <SocialIcon icon={<Twitter size={18} />} name="twitter" />
+              <SocialIcon icon={<Linkedin size={18} />} name="linkedin" />
+              <SocialIcon icon={<Facebook size={18} />} name="facebook" />
+              <SocialIcon icon={<Instagram size={18} />} name="instagram" />
+              <SocialIcon icon={<Github size={18} />} name="github" />
             </div>
           </div>
           
@@ -63,7 +65,7 @@ const Footer = () => {
             <ul className="space-y-3">
               {footerLinks.product.map((link, index) => (
                 <li key={index}>
-                  <a href={link.href} className="text-venture-gray hover:text-venture-purple">
+                  <a href={link.href} className="text-venture-gray hover:text-venture-purple transition-colors">
                     {link.name}
                   </a>
                 </li>
@@ -76,7 +78,7 @@ const Footer = () => {
             <ul className="space-y-3">
               {footerLinks.company.map((link, index) => (
                 <li key={index}>
-                  <a href={link.href} className="text-venture-gray hover:text-venture-purple">
+                  <a href={link.href} className="text-venture-gray hover:text-venture-purple transition-colors">
                     {link.name}
                   </a>
                 </li>
@@ -89,7 +91,7 @@ const Footer = () => {
             <ul className="space-y-3">
               {footerLinks.resources.map((link, index) => (
                 <li key={index}>
-                  <a href={link.href} className="text-venture-gray hover:text-venture-purple">
+                  <a href={link.href} className="text-venture-gray hover:text-venture-purple transition-colors">
                     {link.name}
                   </a>
                 </li>
@@ -102,7 +104,7 @@ const Footer = () => {
             <ul className="space-y-3">
               {footerLinks.legal.map((link, index) => (
                 <li key={index}>
-                  <a href={link.href} className="text-venture-gray hover:text-venture-purple">
+                  <a href={link.href} className="text-venture-gray hover:text-venture-purple transition-colors">
                     {link.name}
                   </a>
                 </li>
@@ -134,11 +136,14 @@ const Footer = () => {
   );
 };
 
-const SocialIcon = ({ name }: { name: string }) => {
+const SocialIcon = ({ icon, name }: { icon: React.ReactNode, name: string }) => {
   return (
-    <a href="#" className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-venture-purple/10 transition-colors">
-      <span className="sr-only">{name}</span>
-      <div className="h-5 w-5 bg-venture-gray/50 rounded-full"></div>
+    <a 
+      href="#" 
+      className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-venture-purple/10 hover:text-venture-purple transition-colors"
+      aria-label={name}
+    >
+      {icon}
     </a>
   );
 };
