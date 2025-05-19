@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowRight, CheckCircle } from "lucide-react";
@@ -82,9 +83,17 @@ const CTASection = () => {
             </div>
           </form>
           
-          <p className="text-sm text-gray-400 mt-4 animate-fade-in" style={{ animationDelay: "0.3s" }}>
-            Start your 14-day free trial. No credit card required.
-          </p>
+          <div className="mt-6 animate-fade-in" style={{ animationDelay: "0.3s" }}>
+            <p className="text-sm text-gray-400 mb-3">
+              Already have an account?{" "}
+              <Link to="/login" className="text-venture-purple-light hover:underline">
+                Sign in
+              </Link>
+            </p>
+            <p className="text-sm text-gray-400">
+              Start your 14-day free trial. No credit card required.
+            </p>
+          </div>
           
           {/* Trust indicators */}
           <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-center animate-fade-in" style={{ animationDelay: "0.4s" }}>
